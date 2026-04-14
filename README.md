@@ -19,10 +19,3 @@ npm run dev
 npm run build
 npm run deploy
 ```
-
-### Настройка API
-
-В файле `src/scripts/components/api.js` укажите:
-
-- **cohortId**: идентификатор группы
-- **token**: личный токен
