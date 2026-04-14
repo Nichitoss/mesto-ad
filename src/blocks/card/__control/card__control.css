@@ -3,7 +3,7 @@
   justify-content: flex-start;
   gap: 8px;
   position: absolute;
-  top: 18px;
-  inset-inline: 15px;
-  width: calc(100% - 30px);
+  top: 20px;
+  inset-inline: 20px;
+  width: calc(100% - 40px);
 }

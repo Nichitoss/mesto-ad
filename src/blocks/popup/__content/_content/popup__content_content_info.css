@@ -1,6 +1,12 @@
+.popup__content_content_info {
+  max-width: 430px;
+  padding: 20px;
+}
 
 @media screen and (max-width: 568px) {
-    .popup__content_content_info {
-        max-width: calc(100% - 40px);
-    }
+  .popup__content_content_info {
+    max-width: 260px;
+    padding: 16px 12px;
+    border-radius: 8px;
+  }
 }
