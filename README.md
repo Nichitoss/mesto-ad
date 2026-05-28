@@ -5,17 +5,3 @@
 ### Ссылка на проект
 
 - **GitHub Pages**: https://nichitoss.github.io/mesto-ad/
-
-### Установка и запуск
-
-```bash
-npm install
-npm run dev
-```
-
-### Сборка и публикация
-
-```bash
-npm run build
-npm run deploy
-```
