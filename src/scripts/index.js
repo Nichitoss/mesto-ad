@@ -15,7 +15,7 @@ import {
   setUserAvatar,
   setUserInfo,
 } from "./components/api.js";
-import { createCardElement, removeCardElement, updateCardLikesView } from "./components/card.js";
+import { createCardElement, removeCardElement, updateCardLikesView, setLikeButtonPending } from "./components/card.js";
 import { openModalWindow, closeModalWindow, setCloseModalWindowEventListeners } from "./components/modal.js";
 import { clearValidation, enableValidation } from "./components/validation.js";
 
@@ -63,7 +63,6 @@ const infoList = infoModalWindow?.querySelector(".popup__list");
 
 let currentUserId = null;
 let cardToDelete = null;
-let cardsState = [];
 
 const validationConfig = {
   formSelector: ".popup__form",
@@ -152,7 +151,6 @@ const handleCardFormSubmit = (evt) => {
     link: cardLinkInput.value.trim(),
   })
     .then((cardData) => {
-      cardsState = [cardData, ...cardsState];
       placesWrap.prepend(
         createCardElement(cardData, currentUserId, {
           onPreviewPicture: handlePreviewPicture,
@@ -178,20 +176,17 @@ const handleLikeCard = (likeButton, cardElement) => {
   const cardId = cardElement.dataset.cardId;
   const isLiked = likeButton.classList.contains("card__like-button_is-active");
 
-  likeButton.disabled = true;
-  likeButton.classList.add("card__like-button_pending");
+  setLikeButtonPending(likeButton, true);
 
   changeLikeCardStatus(cardId, isLiked)
     .then((updatedCard) => {
-      cardsState = cardsState.map((card) => (card._id === updatedCard._id ? updatedCard : card));
       updateCardLikesView(cardElement, updatedCard.likes, currentUserId);
     })
     .catch((err) => {
       console.log(err);
     })
     .finally(() => {
-      likeButton.classList.remove("card__like-button_pending");
-      likeButton.disabled = false;
+      setLikeButtonPending(likeButton, false);
     });
 };
 
@@ -210,7 +205,6 @@ const handleDeleteCardConfirmSubmit = (evt) => {
 
   deleteCardById(cardId)
     .then(() => {
-      cardsState = cardsState.filter((card) => card._id !== cardId);
       removeCardElement(cardToDelete);
       closeModalWindow(removeCardModalWindow);
       cardToDelete = null;
@@ -225,7 +219,6 @@ const handleDeleteCardConfirmSubmit = (evt) => {
 };
 
 const renderCards = (cards) => {
-  cardsState = [...cards];
   placesWrap.replaceChildren();
   cards.forEach((cardData) => {
     placesWrap.append(
@@ -318,15 +311,11 @@ const renderCardsStats = (cards) => {
 const handleInfoOpen = () => {
   if (!infoModalWindow) return;
 
-  // Показываем статистику сразу по текущим данным на странице.
-  renderCardsStats(cardsState);
   openModalWindow(infoModalWindow);
 
-  // Пытаемся подтянуть более свежие данные с сервера.
   getCardList()
     .then((cards) => {
-      cardsState = [...cards];
-      renderCardsStats(cardsState);
+      renderCardsStats(cards);
     })
     .catch((err) => {
       console.log(err);

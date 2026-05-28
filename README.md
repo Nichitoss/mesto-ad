@@ -4,7 +4,7 @@
 
 ### Ссылка на проект
 
-- **GitHub Pages**: 
+- **GitHub Pages**: https://nichitoss.github.io/mesto-ad/
 
 ### Установка и запуск
 

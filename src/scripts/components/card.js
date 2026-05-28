@@ -52,6 +52,11 @@ export const createCardElement = (
   return cardElement;
 };
 
+export const setLikeButtonPending = (likeButton, isPending) => {
+  likeButton.disabled = isPending;
+  likeButton.classList.toggle("card__like-button_pending", isPending);
+};
+
 export const updateCardLikesView = (cardElement, likes, currentUserId) => {
   const likeButton = cardElement.querySelector(".card__like-button");
   const likeCountElement = cardElement.querySelector(".card__like-count");
