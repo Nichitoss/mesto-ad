@@ -34,6 +34,9 @@
   left: 0;
   bottom: 0;
   right: 0;
+  overflow-y: auto;
+  padding: 40px 0;
+  box-sizing: border-box;
   /*Стили для плавного появления модалки*/
   visibility: hidden;
   opacity: 0;
