@@ -1,6 +1,7 @@
 .popup__info-description {
-  display: flex;
-  align-items: center;
+  display: block;
+  flex: 1;
+  min-width: 0;
   margin: 0;
   max-width: 320px;
   font-weight: 400;
