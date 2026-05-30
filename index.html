@@ -8,7 +8,7 @@
     />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Mesto</title>
-    <script type="module" crossorigin src="./assets/index-WAFLzqd2.js"></script>
+    <script type="module" crossorigin src="./assets/index-texNzoso.js"></script>
     <link rel="stylesheet" crossorigin href="./assets/index-BX6_sKvE.css">
   </head>
   <body class="page">
@@ -55,6 +55,8 @@
                 minlength="2"
                 maxlength="40"
                 pattern="^[A-Za-zА-Яа-яЁё\-\s]+$"
+                data-error-empty="Поле не может состоять только из пробелов."
+                data-error-pattern="Разрешены только латинские и кириллические буквы, дефис и пробел."
                 required
               />
               <span class="popup__error" id="user-name-error"></span>
@@ -98,6 +100,8 @@
                 minlength="2"
                 maxlength="30"
                 pattern="^[A-Za-zА-Яа-яЁё\-\s]+$"
+                data-error-empty="Поле не может состоять только из пробелов."
+                data-error-pattern="Разрешены только латинские и кириллические буквы, дефис и пробел."
                 required
               />
               <span class="popup__error" id="place-name-error"></span>
