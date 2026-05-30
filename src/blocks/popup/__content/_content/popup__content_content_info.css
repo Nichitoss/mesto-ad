@@ -1,12 +1,15 @@
 .popup__content_content_info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
   max-width: 430px;
-  padding: 20px;
 }
 
 @media screen and (max-width: 568px) {
   .popup__content_content_info {
-    max-width: 260px;
-    padding: 16px 12px;
-    border-radius: 8px;
+    max-width: calc(100% - 80px);
+    padding: 25px 20px;
+    gap: 16px;
   }
 }

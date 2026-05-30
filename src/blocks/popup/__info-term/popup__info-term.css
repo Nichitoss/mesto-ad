@@ -1,7 +1,13 @@
 .popup__info-term {
-  background-color: rgb(0 0 0 / 12%);
+  display: flex;
+  align-items: center;
+  padding: 1px;
+  background: rgba(0, 0, 0, 0.2);
   border-radius: 2px;
-  padding: 2px 4px;
-  font-weight: 700;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 17px;
+  color: #000;
   white-space: nowrap;
+  flex-shrink: 0;
 }
