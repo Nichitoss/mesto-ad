@@ -11,3 +11,7 @@
   white-space: nowrap;
   flex-shrink: 0;
 }
+
+.popup__info-term::after {
+  content: ":";
+}
