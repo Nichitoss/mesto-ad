@@ -85,9 +85,22 @@ const setFormPending = (formElement, isPending) => {
 };
 
 const syncFormValidationAfterPending = (formElement) => {
-  formElement.querySelectorAll(".popup__input").forEach((inputElement) => {
+  formElement.querySelectorAll(validationConfig.inputSelector).forEach((inputElement) => {
     inputElement.dispatchEvent(new Event("input", { bubbles: true }));
   });
+};
+
+const withFormLoading = (button, form, defaultText, loadingText, apiPromise, onSuccess) => {
+  renderLoading(button, true, defaultText, loadingText);
+  setFormPending(form, true);
+  apiPromise
+    .then(onSuccess)
+    .catch((err) => console.log(err))
+    .finally(() => {
+      setFormPending(form, false);
+      syncFormValidationAfterPending(form);
+      renderLoading(button, false, defaultText, loadingText);
+    });
 };
 
 const handlePreviewPicture = ({ name, link }) => {
@@ -99,58 +112,32 @@ const handlePreviewPicture = ({ name, link }) => {
 
 const handleProfileFormSubmit = (evt) => {
   evt.preventDefault();
-
-  renderLoading(profileSubmitButton, true, "Сохранить", "Сохранение...");
-  setFormPending(profileForm, true);
-  setUserInfo({
-    name: profileTitleInput.value.trim(),
-    about: profileDescriptionInput.value.trim(),
-  })
-    .then((userData) => {
+  withFormLoading(profileSubmitButton, profileForm, "Сохранить", "Сохранение...",
+    setUserInfo({ name: profileTitleInput.value.trim(), about: profileDescriptionInput.value.trim() }),
+    (userData) => {
       profileTitle.textContent = userData.name;
       profileDescription.textContent = userData.about;
       closeModalWindow(profileFormModalWindow);
-    })
-    .catch((err) => {
-      console.log(err);
-    })
-    .finally(() => {
-      setFormPending(profileForm, false);
-      syncFormValidationAfterPending(profileForm);
-      renderLoading(profileSubmitButton, false, "Сохранить", "Сохранение...");
-    });
+    }
+  );
 };
 
 const handleAvatarFromSubmit = (evt) => {
   evt.preventDefault();
-
-  renderLoading(avatarSubmitButton, true, "Сохранить", "Сохранение...");
-  setFormPending(avatarForm, true);
-  setUserAvatar(avatarInput.value.trim())
-    .then((userData) => {
+  withFormLoading(avatarSubmitButton, avatarForm, "Сохранить", "Сохранение...",
+    setUserAvatar(avatarInput.value.trim()),
+    (userData) => {
       profileAvatar.style.backgroundImage = `url(${userData.avatar})`;
       closeModalWindow(avatarFormModalWindow);
-    })
-    .catch((err) => {
-      console.log(err);
-    })
-    .finally(() => {
-      setFormPending(avatarForm, false);
-      syncFormValidationAfterPending(avatarForm);
-      renderLoading(avatarSubmitButton, false, "Сохранить", "Сохранение...");
-    });
+    }
+  );
 };
 
 const handleCardFormSubmit = (evt) => {
   evt.preventDefault();
-
-  renderLoading(cardSubmitButton, true, "Создать", "Создание...");
-  setFormPending(cardForm, true);
-  addCard({
-    name: cardNameInput.value.trim(),
-    link: cardLinkInput.value.trim(),
-  })
-    .then((cardData) => {
+  withFormLoading(cardSubmitButton, cardForm, "Создать", "Создание...",
+    addCard({ name: cardNameInput.value.trim(), link: cardLinkInput.value.trim() }),
+    (cardData) => {
       placesWrap.prepend(
         createCardElement(cardData, currentUserId, {
           onPreviewPicture: handlePreviewPicture,
@@ -159,15 +146,8 @@ const handleCardFormSubmit = (evt) => {
         })
       );
       closeModalWindow(cardFormModalWindow);
-    })
-    .catch((err) => {
-      console.log(err);
-    })
-    .finally(() => {
-      setFormPending(cardForm, false);
-      syncFormValidationAfterPending(cardForm);
-      renderLoading(cardSubmitButton, false, "Создать", "Создание...");
-    });
+    }
+  );
 };
 
 const handleLikeCard = (likeButton, cardElement) => {

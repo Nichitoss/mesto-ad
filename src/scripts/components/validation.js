@@ -16,24 +16,18 @@ const hideInputError = (formElement, inputElement, validationConfig) => {
   errorElement.classList.remove(validationConfig.errorClass);
 };
 
-const setCustomNameError = (inputElement) => {
-  const isNameField =
-    inputElement.classList.contains("popup__input_type_name") ||
-    inputElement.classList.contains("popup__input_type_card-name");
-
-  if (!isNameField) return;
-
-  if (inputElement.value.trim().length === 0) {
-    inputElement.setCustomValidity("Поле не может состоять только из пробелов.");
-  } else if (inputElement.validity.patternMismatch) {
-    inputElement.setCustomValidity("Разрешены только латинские и кириллические буквы, дефис и пробел.");
+const setCustomError = (inputElement) => {
+  if (inputElement.value.trim().length === 0 && inputElement.dataset.errorEmpty) {
+    inputElement.setCustomValidity(inputElement.dataset.errorEmpty);
+  } else if (inputElement.validity.patternMismatch && inputElement.dataset.errorPattern) {
+    inputElement.setCustomValidity(inputElement.dataset.errorPattern);
   } else {
     inputElement.setCustomValidity("");
   }
 };
 
 const checkInputValidity = (formElement, inputElement, validationConfig) => {
-  setCustomNameError(inputElement);
+  setCustomError(inputElement);
 
   if (!inputElement.validity.valid) {
     showInputError(formElement, inputElement, inputElement.validationMessage, validationConfig);
