@@ -1,9 +1,7 @@
 .popup__list-item_type_badge {
-  display: flex;
-  align-items: center;
+  display: block;
   padding: 2px;
   max-width: 109px;
-  height: 21px;
   background: rgba(0, 0, 0, 0.2);
   border-radius: 2px;
   font-size: 14px;
