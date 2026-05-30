@@ -250,7 +250,7 @@ const renderCardsStats = (cards) => {
 
     if (likesCount > likesChampionValue) {
       likesChampionValue = likesCount;
-      likesChampionName = `${card.owner?.name ?? "Без имени"} (${likesCount})`;
+      likesChampionName = card.owner?.name ?? "Без имени";
     }
   });
 
