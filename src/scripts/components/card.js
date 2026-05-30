@@ -14,7 +14,6 @@ export const createCardElement = (
   const likeButton = cardElement.querySelector(".card__like-button");
   const deleteButton = cardElement.querySelector(".card__control-button_type_delete");
   const cardImage = cardElement.querySelector(".card__image");
-  const likeCountElement = cardElement.querySelector(".card__like-count");
 
   cardImage.src = cardData.link;
   cardImage.alt = cardData.name;
@@ -27,13 +26,7 @@ export const createCardElement = (
 
   cardElement.dataset.cardId = cardData._id;
 
-  const isLikedByMe = Boolean(cardData.likes?.some((user) => user._id === currentUserId));
-  if (isLikedByMe) {
-    likeButton.classList.add("card__like-button_is-active");
-  }
-  if (likeCountElement) {
-    likeCountElement.textContent = String(cardData.likes?.length ?? 0);
-  }
+  updateCardLikesView(cardElement, cardData.likes, currentUserId);
 
   if (onLike) {
     likeButton.addEventListener("click", () => onLike(likeButton, cardElement));

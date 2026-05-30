@@ -237,20 +237,30 @@ const renderCardsStats = (cards) => {
 
   const uniqueOwners = new Set();
   let totalLikes = 0;
-  let likesChampionName = "—";
-  let likesChampionValue = 0;
+  const likesByUser = new Map();
 
   cards.forEach((card) => {
     if (card.owner?._id) {
       uniqueOwners.add(card.owner._id);
     }
 
-    const likesCount = card.likes?.length ?? 0;
-    totalLikes += likesCount;
+    const cardLikes = card.likes ?? [];
+    totalLikes += cardLikes.length;
 
-    if (likesCount > likesChampionValue) {
-      likesChampionValue = likesCount;
-      likesChampionName = card.owner?.name ?? "Без имени";
+    cardLikes.forEach((user) => {
+      const entry = likesByUser.get(user._id) ?? { name: user.name ?? "Без имени", count: 0 };
+      entry.count += 1;
+      likesByUser.set(user._id, entry);
+    });
+  });
+
+  let likesChampionName = "—";
+  let likesChampionValue = 0;
+
+  likesByUser.forEach((entry) => {
+    if (entry.count > likesChampionValue) {
+      likesChampionValue = entry.count;
+      likesChampionName = entry.name;
     }
   });
 
